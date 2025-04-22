@@ -8,7 +8,8 @@ Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
 
-Route::resource('/csv',CsvController::class)->only(['index', 'create', 'store','edit','update','destroy']);
+Route::post('/csv/ver', [CsvController::class, 'show'])->name('ver');
+Route::resource('/csv',CsvController::class);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

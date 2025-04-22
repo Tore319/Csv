@@ -4,9 +4,25 @@
 
 @section('contenido')
     <h1 class="text-center">Gestion</h1>
-    @foreach ($csvs as $csv)
-        <h2 class="text-center">{{ $csv->nombre }}</h2>
-    @endforeach
+    <div class="container my-5 mx-auto">
+        <div class="d-flex flex-wrap justify-content-around">
+            @foreach ($csvs as $csv)
+                <div class="d-flex justify-content-around mb-3 p-3 border bg-light" style="width: 45%;">
+                    <embed src="storage/{{ $csv->archivo }}" type="application/pdf" width="60%" height="300px"/>
+                    <div>
+                        <h4 class="text-center">{{ $csv->nombre }}</h4>
+                        <a href="#">
+                            <button class="btn btn-danger">
+                                <i class="bi bi-trash mr-1"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
 
-    {{ $csvs->links() }}
+    <div class="container my-5 mx-auto">
+        {{ $csvs->links() }}
+    </div>
 @endsection

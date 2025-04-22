@@ -6,6 +6,7 @@ use App\Models\Csv;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Smalot\PdfParser\Parser;
 
 class CsvController extends Controller
 {
@@ -20,7 +21,7 @@ class CsvController extends Controller
             return redirect()->route('inicio');
         }
 
-        $csvs = Csv::orderBy('created_at', 'DESC')->paginate(1);
+        $csvs = Csv::orderBy('created_at', 'DESC')->paginate(6);
         return view('csv.index', compact('csvs'));
     }
 
@@ -42,7 +43,7 @@ class CsvController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         $csv = new Csv();
         $usuario = Auth::user();
 
@@ -57,20 +58,33 @@ class CsvController extends Controller
         if ($request->hasFile('archivo')) {
             $csv->archivo = $request->file('archivo')->store('csv', 'public');
         }
-        $csv->hash = 'kdsbhglkg';
-        $csv->csv = 'dnbhgjkdwhsngjkbrwegkljsab';
+        $ruta = '/home/juanjo/Escritorio/laravel/CVC/storage/app/public/'.$csv->archivo;
 
-        if ($csv->save()) {
-            return redirect()->route('inicio');
+        try {
+            $contenido = file_get_contents($ruta);
+            $csv->hash = sha1($contenido);
+            $csv->csv = strtoupper(substr($csv->hash, 0, 16));
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 404);
         }
+
+        $csv->save();
+
+        return redirect()->route('inicio');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Csv $cvc)
-    {
-        //
+    public function show(Request $request)
+    {   
+        if($request) {
+            $csv = $request->get('csv');
+            $sql = Csv::where('csv', $csv)->firstOrFail();
+            //dd($sql);
+        }
+
+        return view('inicio',compact('sql'));
     }
 
     /**
