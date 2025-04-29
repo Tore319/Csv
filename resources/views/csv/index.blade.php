@@ -8,14 +8,14 @@
         <div class="d-flex flex-wrap justify-content-around">
             @foreach ($csvs as $csv)
                 <div class="d-flex justify-content-around mb-3 p-3 border bg-light" style="width: 45%;">
-                    <embed src="storage/{{ $csv->archivo }}" type="application/pdf" width="60%" height="300px"/>
+                    <embed src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" height="300px"/>
                     <div>
                         <h4 class="text-center">{{ $csv->nombre }}</h4>
-                        <a href="#">
-                            <button class="btn btn-danger">
-                                <i class="bi bi-trash mr-1"></i>
-                            </button>
-                        </a>
+                        <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data" class="row g-3 mt-3">
+                        @csrf
+                        @method('DELETE')
+                            <button class="btn btn-danger" style="width: 50%;"><i class="bi bi-trash"></i></button>
+                        </form>
                     </div>
                 </div>
             @endforeach

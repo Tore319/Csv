@@ -78,13 +78,14 @@ class CsvController extends Controller
      */
     public function show(Request $request)
     {   
-        if($request) {
-            $csv = $request->get('csv');
-            $sql = Csv::where('csv', $csv)->firstOrFail();
-            //dd($sql);
+        if(!$request) {
+            return redirect()->route('inicio');
         }
 
-        return view('inicio',compact('sql'));
+        $csv = $request->get('csv');
+        $sql = Csv::where('csv', $csv)->firstOrFail();
+
+        return view('csv.show',compact('sql'));
     }
 
     /**
@@ -106,8 +107,11 @@ class CsvController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Csv $cvc)
+    public function destroy(string $id)
     {
-        //
+        $csv = Csv::findOrFail($id);
+        $csv->delete();
+
+        return redirect()->route('csv.index');
     }
 }
