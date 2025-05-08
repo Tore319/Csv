@@ -61,7 +61,7 @@ class CsvController extends Controller
         if ($request->hasFile('archivo')) {
             $csv->archivo = $request->file('archivo')->store('csv', 'public');
         }
-        $ruta = '/home/juanjo/Escritorio/laravel/CVC/storage/app/public/';
+        $ruta = storage_path('app/public/');
 
         //Hash y CSV
         $contenido = file_get_contents($ruta.$csv->archivo);
