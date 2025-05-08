@@ -12,10 +12,8 @@
                     <label for="csv">Inserte el Codigo CSV</label>
                 </p>
                 <p class="text-center">
-                    <input type="text" id="csv" name="csv">
-                </p>
-                <p class="text-center">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <input type="text" id="csv" name="csv" required>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
                 </p>
             </form>
         </div>

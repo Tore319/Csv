@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Smalot\PdfParser\Parser;
+use setasign\Fpdi\Fpdi;
 
 class CsvController extends Controller
 {
@@ -47,10 +48,12 @@ class CsvController extends Controller
         $csv = new Csv();
         $usuario = Auth::user();
 
+        //Comprobacion Log In
         if(!$usuario || $usuario->rol !== 'admin') {
             return redirect()->route('inicio');
         }
 
+        //Recojer parametros
         $csv->DNI = $request->get('dni');
         $csv->nombre = $request->get('nombre');
         $csv->apellidos = $request->get('apellidos');
@@ -58,15 +61,33 @@ class CsvController extends Controller
         if ($request->hasFile('archivo')) {
             $csv->archivo = $request->file('archivo')->store('csv', 'public');
         }
-        $ruta = '/home/juanjo/Escritorio/laravel/CVC/storage/app/public/'.$csv->archivo;
+        $ruta = '/home/juanjo/Escritorio/laravel/CVC/storage/app/public/';
 
-        try {
-            $contenido = file_get_contents($ruta);
-            $csv->hash = sha1($contenido);
-            $csv->csv = strtoupper(substr($csv->hash, 0, 16));
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
-        }
+        //Hash y CSV
+        $contenido = file_get_contents($ruta.$csv->archivo);
+        $csv->hash = sha1($contenido);
+        $csv->csv = strtoupper(substr($csv->hash, 0, 16));
+
+        //Modificacion PDF
+        $pdf = new Fpdi();
+        $pdf->AddPage();
+
+        $pdf->setSourceFile($ruta.$csv->archivo);
+        $template = $pdf->importPage(1);
+        $pdf->useTemplate($template, 0, 0);
+
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetTextColor(0, 0, 200);
+        $pdf->SetXY(120, 250);
+        $pdf->Write(0, "Codigo CSV: $csv->csv");
+
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetTextColor(0, 0, 255);
+        $pdf->SetX(120);
+        $pdf->Write(5, "http://juanjo-torres.es");
+        $pdf->Output('F', $ruta.$csv->archivo);
 
         $csv->save();
 

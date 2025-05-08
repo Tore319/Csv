@@ -14,13 +14,13 @@ class CsvSeeder extends Seeder
     public function run(): void
     {
         $csv1 = new Csv();
-        $csv1->hash = 'bdb814873f3db7afcedbc0bf9f889105a1cac081';
-        $csv1->csv = 'BDB814873F3DB7AF';
+        $csv1->hash = 'dee004a8ac7d653e1e581513d0f8227833404e8a';
+        $csv1->csv = 'DEE004A8AC7D653E';
         $csv1->DNI = '20947867L';
         $csv1->nombre = 'Juanjo';
         $csv1->apellidos = 'Torres Roig';
         $csv1->correo = 'juanjo@gmail.com';
-        $csv1->archivo = 'csv/WfLY13DdKrTicRdx3T956uXCQ2SrcNUUUuNBIepN.pdf';
+        $csv1->archivo = 'csv/ghP5Rdj8vw4ktn3G7IBPcKhgXcUj2hdOSVD66YVL.pdf';
         $csv1->save();
     }
 }

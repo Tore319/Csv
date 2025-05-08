@@ -11,6 +11,7 @@
                     <embed src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" height="300px"/>
                     <div>
                         <h4 class="text-center">{{ $csv->nombre }}</h4>
+                        <p class="text-center"><b>{{ $csv->csv }}</b></p>
                         <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data" class="row g-3 mt-3">
                         @csrf
                         @method('DELETE')
