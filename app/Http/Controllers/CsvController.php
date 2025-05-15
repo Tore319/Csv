@@ -47,6 +47,7 @@ class CsvController extends Controller
     {   
         $csv = new Csv();
         $usuario = Auth::user();
+        $csvs = Csv::get();
 
         //Comprobacion Log In
         if(!$usuario || $usuario->rol !== 'admin') {
@@ -66,7 +67,19 @@ class CsvController extends Controller
         //Hash y CSV
         $contenido = file_get_contents($ruta.$csv->archivo);
         $csv->hash = sha1($contenido);
-        $csv->csv = strtoupper(substr($csv->hash, 0, 16));
+        $comp = Csv::get()->where('hash', $csv->hash);
+        if(count($comp) != 0) {
+            return redirect()->route('csv.create')->with('mensaje', 'Archivo Repetido');
+        }
+        $random = rand(1,9);
+
+        $csv->save();
+
+        $csvId = Csv::get()->where('hash', $csv->hash);
+        //dd($csvId[0]->id);
+        $find = Csv::findOrFail($csvId[0]->id);
+        $find->csv = 'IME'.$csv->hash.$find->id.$random;
+        //dd($find->csv);
 
         //Modificacion PDF
         $pdf = new Fpdi();
@@ -78,8 +91,8 @@ class CsvController extends Controller
 
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetTextColor(0, 0, 200);
-        $pdf->SetXY(120, 250);
-        $pdf->Write(0, "Codigo CSV: $csv->csv");
+        $pdf->SetXY(0, 250);
+        $pdf->Write(0, "Codigo CSV: $find->csv");
 
         $pdf->Ln(10);
 
@@ -89,9 +102,9 @@ class CsvController extends Controller
         $pdf->Write(5, "http://juanjo-torres.es");
         $pdf->Output('F', $ruta.$csv->archivo);
 
-        $csv->save();
+        $find->save();
 
-        return redirect()->route('inicio');
+        return redirect()->route('csv.index');
     }
 
     /**
@@ -99,14 +112,28 @@ class CsvController extends Controller
      */
     public function show(Request $request)
     {   
-        if(!$request) {
-            return redirect()->route('inicio');
+        $usuario = Auth::user();
+
+        if(!$usuario || $usuario->rol !== 'admin') {
+            $csvs = $request->get('csv');
+            $sql = Csv::where('csv', $csvs)->firstOrFail();
+    
+            return view('csv.show',compact('sql'));  
+        }else {
+            $csv = $request->get('csv');
+            $query = Csv::query();
+
+            $query->where(function($q) use ($csv){
+                $q->where('correo', 'like', '%' . $csv . '%')
+                ->orWhere('nombre', 'like', '%' . $csv . '%')
+                ->orWhere('DNI', 'like', '%' . $csv . '%')
+                ->orWhere('csv', 'like', '%' . $csv . '%');
+            });
+
+            $csvs = $query->orderBy('created_at', 'desc')->orderBy('created_at', 'DESC')->paginate(1);
+    
+            return view('csv.index',compact('csvs'));
         }
-
-        $csv = $request->get('csv');
-        $sql = Csv::where('csv', $csv)->firstOrFail();
-
-        return view('csv.show',compact('sql'));
     }
 
     /**

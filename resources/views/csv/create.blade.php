@@ -3,6 +3,11 @@
 @section('titulo_head', 'Subir archivos')
 
 @section('contenido')
+    @if (session()->has('mensaje'))
+        <div class="container my-5 mx-auto alert alert-danger alert-dismissible " style="width: 75%;">{{ session('mensaje') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <h1 class="text-center">Subir Archivos</h1>
     <div class="container my-5 mx-auto">
         <form action="{{ route('csv.store') }}" method="POST" enctype="multipart/form-data" class="row g-3 mt-3">
