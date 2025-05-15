@@ -16,12 +16,18 @@
                 <div class="d-flex justify-content-around mb-3 p-3 border bg-light" style="width: 45%;">
                     <embed src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" height="300px"/>
                     <div>
-                        <h4 class="text-center">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
-                        <p class="text-center"><b>{{ $csv->csv }}</b></p>
+                        <h4 class="text-center" style="margin-top: 20px;">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
+                        <button 
+                            class="btn btn-outline-secondary d-block mx-auto" 
+                            data-clipboard-text="{{ $csv->csv }}" 
+                            onclick="navigator.clipboard.writeText(this.dataset.clipboardText)"
+                            style="margin-top: 20px;">
+                            <i class="bi bi-clipboard"></i> Copiar CSV
+                        </button>
                         <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
                         @csrf
                         @method('DELETE')
-                            <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-danger" style="margin-top: 20px;"><i class="bi bi-trash"></i></button>
                         </form>
                     </div>
                 </div>

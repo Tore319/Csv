@@ -75,9 +75,9 @@ class CsvController extends Controller
 
         $csv->save();
 
-        $csvId = Csv::get()->where('hash', $csv->hash);
+        $csvId = Csv::where('hash', $csv->hash)->first();
         //dd($csvId[0]->id);
-        $find = Csv::findOrFail($csvId[0]->id);
+        $find = Csv::findOrFail($csvId->id);
         $find->csv = 'IME'.$csv->hash.$find->id.$random;
         //dd($find->csv);
 
@@ -91,7 +91,7 @@ class CsvController extends Controller
 
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetTextColor(0, 0, 200);
-        $pdf->SetXY(0, 250);
+        $pdf->SetXY(50, 250);
         $pdf->Write(0, "Codigo CSV: $find->csv");
 
         $pdf->Ln(10);
