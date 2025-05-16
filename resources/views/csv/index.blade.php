@@ -3,7 +3,7 @@
 @section('titulo_head', 'Gestion de Archivos')
 
 @section('contenido')
-    <div class="mb-3 justify-content-end d-flex w-25 ms-auto">
+    <div class="mb-3 justify-content-end d-flex w-25 ms-auto" style="margin-right: 15px;">
         <form class="input-group" method="GET" action="{{ route('ver') }}">
             <input type="text" class="form-control" placeholder="Buscar Csv" aria-label="Buscar CSV" name="search" value="{{ $search ?? '' }}" required>
             <button class="btn btn-primary" id="btn_buscar">Buscar</button>
@@ -17,6 +17,7 @@
                     <embed src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" height="300px"/>
                     <div>
                         <h4 class="text-center" style="margin-top: 20px;">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
+                        <p class="text-center" style="margin-top: 20px;">{{ $csv->tipo_documento }}</p>
                         <button 
                             class="btn btn-outline-secondary d-block mx-auto" 
                             data-clipboard-text="{{ $csv->csv }}" 

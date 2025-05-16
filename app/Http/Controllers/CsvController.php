@@ -127,7 +127,8 @@ class CsvController extends Controller
                 $q->where('correo', 'like', '%' . $csv . '%')
                 ->orWhere('nombre', 'like', '%' . $csv . '%')
                 ->orWhere('DNI', 'like', '%' . $csv . '%')
-                ->orWhere('csv', 'like', '%' . $csv . '%');
+                ->orWhere('csv', 'like', '%' . $csv . '%')
+                ->orWhere('tipo_documento', 'like', '%' . $csv . '%');
             });
 
             $csvs = $query->orderBy('created_at', 'desc')->orderBy('created_at', 'DESC')->paginate(1);

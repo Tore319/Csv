@@ -26,11 +26,24 @@
             </div>
             <div class="col-md-6">
                 <label for="correo" class="form-label">Correo electronico: </label>
-                <input type="text" class="form-control" id="correo" name="correo" value="{{old('correo')}}" required>
+                <input type="email" class="form-control" id="correo" name="correo" value="{{old('correo')}}" 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                required>
             </div>
             <div class="col-md-6">
                 <label for="archivo" class="form-label">Archivo: </label>
                 <input type="file" class="form-control" id="archivo" name="archivo" accept="application/pdf" required>
+            </div>
+            <div class="col-md-6">
+                <label for="tipoArchivo" class="form-label">Tipo Archivo: </label>
+                <p>
+                    <select name="tipoArchivo" id="tipoArchivo" style="margin-top: 10px;" required>
+                        <option value="Certificado matricula">Certificado matricula</option>
+                        <option value="Titulo academico">Titulo academico</option>
+                        <option value="Certificado Digital empresa">Certificado Digital empresa</option>
+                        <option value="Certificado Digital gobierno">Certificado Digital gobierno</option>
+                    </select>
+                </p>
             </div>
             <button type="submit">Enviar</button>
         </form>

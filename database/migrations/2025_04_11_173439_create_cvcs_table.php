@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('apellidos');
             $table->string('correo')->unique();
             $table->string('archivo');
-            $table->enum('tipo_documento', ['Certificado matricula', 'Titulo academico', 'Archivo empresarial', 'Archivo estado'])
+            $table->enum('tipo_documento', ['Certificado matricula', 'Titulo academico', 'Certificado Digital empresa', 'Certificado Digital gobierno'])
                   ->default('Certificado matricula');
             $table->timestamps();
         });
