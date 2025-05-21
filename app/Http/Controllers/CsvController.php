@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Csv;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Smalot\PdfParser\Parser;
 use setasign\Fpdi\Fpdi;
+use Illuminate\Support\Facades\Storage;
 
 class CsvController extends Controller
 {
@@ -132,7 +131,11 @@ class CsvController extends Controller
             });
 
             $csvs = $query->orderBy('created_at', 'desc')->orderBy('created_at', 'DESC')->paginate(1);
-    
+
+            if(count($csvs) < 1) {
+                return view('inicio');
+            }
+
             return view('csv.index',compact('csvs'));
         }
     }
@@ -157,8 +160,9 @@ class CsvController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
+    {   
         $csv = Csv::findOrFail($id);
+        Storage::disk('public')->delete($csv->archivo);
         $csv->delete();
 
         return redirect()->route('csv.index');
