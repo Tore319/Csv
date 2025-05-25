@@ -75,10 +75,8 @@ class CsvController extends Controller
         $csv->save();
 
         $csvId = Csv::where('hash', $csv->hash)->first();
-        //dd($csvId[0]->id);
         $find = Csv::findOrFail($csvId->id);
         $find->csv = 'IME'.$csv->hash.$find->id.$random;
-        //dd($find->csv);
 
         //Modificacion PDF
         $pdf = new Fpdi();
