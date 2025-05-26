@@ -25,11 +25,16 @@
                             style="margin-top: 20px;">
                             <i class="bi bi-clipboard"></i> Copiar CSV
                         </button>
-                        <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
-                        @csrf
-                        @method('DELETE')
-                            <button class="btn btn-danger" style="margin-top: 20px;"><i class="bi bi-trash"></i></button>
-                        </form>
+                        <div class="d-flex mb-3 align-items-center">
+                            <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+                            @csrf
+                            @method('DELETE')
+                                <button class="btn btn-danger" style="margin-top: 20px;"><i class="bi bi-trash"></i></button>
+                            </form>
+                            <a href="{{ route('download', $csv) }}" class="btn btn-success" style="margin-top: 20px; margin-left: 10px;">
+                                <i class="bi bi-download"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             @endforeach

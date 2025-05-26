@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CreateMail;
 use App\Models\Csv;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use setasign\Fpdi\Fpdi;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,7 +48,7 @@ class CsvController extends Controller
     {   
         $csv = new Csv();
         $usuario = Auth::user();
-        $csvs = Csv::get();
+        //$csvs = Csv::get();
 
         //Comprobacion Log In
         if(!$usuario || $usuario->rol !== 'admin') {
@@ -101,6 +103,8 @@ class CsvController extends Controller
 
         $find->save();
 
+        Mail::to($csv->correo)->send(new CreateMail($csv));
+
         return redirect()->route('csv.index');
     }
 
@@ -111,11 +115,11 @@ class CsvController extends Controller
     {   
         $usuario = Auth::user();
 
-        if(!$usuario || $usuario->rol !== 'admin') {
+        if(Auth::check() || !$usuario || $usuario->rol !== 'admin') {
             $csvs = $request->get('csv');
             $sql = Csv::where('csv', $csvs)->firstOrFail();
     
-            return view('csv.show',compact('sql'));  
+            return view('csv.show',compact('sql'));
         }else {
             $csv = $request->get('csv');
             $query = Csv::query();
@@ -164,5 +168,18 @@ class CsvController extends Controller
         $csv->delete();
 
         return redirect()->route('csv.index');
+    }
+
+    public function download(Csv $csv)
+    {
+        $path = storage_path('app/public/' . $csv->archivo);
+
+        if (!file_exists($path)) {
+            abort(404, 'Archivo no encontrado');
+        }
+
+        return response()->download($path, '', [
+            'Content-Type' => 'application/pdf'
+        ]);
     }
 }
