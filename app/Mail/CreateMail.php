@@ -16,9 +16,9 @@ class CreateMail extends Mailable
 
     public $csv;
 
-    public function __construct(Csv $csv)
+    public function __construct(Csv $find)
     {
-        $this->csv = $csv;
+        $this->csv = $find;
     }
 
     /**

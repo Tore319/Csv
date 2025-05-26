@@ -101,9 +101,8 @@ class CsvController extends Controller
         $pdf->Write(5, "http://juanjo-torres.es");
         $pdf->Output('F', $ruta.$csv->archivo);
 
+        Mail::to($csv->correo)->send(new CreateMail($find));
         $find->save();
-
-        Mail::to($csv->correo)->send(new CreateMail($csv));
 
         return redirect()->route('csv.index');
     }
@@ -115,7 +114,7 @@ class CsvController extends Controller
     {   
         $usuario = Auth::user();
 
-        if(Auth::check() || !$usuario || $usuario->rol !== 'admin') {
+        if(!$usuario || $usuario->rol !== 'admin') {
             $csvs = $request->get('csv');
             $sql = Csv::where('csv', $csvs)->firstOrFail();
     
