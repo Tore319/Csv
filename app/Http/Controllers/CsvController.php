@@ -122,8 +122,8 @@ class CsvController extends Controller
             return view('csv.show',compact('csv'));
 
         }else {
-            $csvs = Csv::where('csv', $sql)->orderBy('created_at', 'DESC')->paginate(1);
-            return view('csv.index', compact('csvs'));
+            $csv = Csv::where('csv', $sql)->firstOrFail();
+            return view('csv.show', compact('csv'));
         }
     }
 
