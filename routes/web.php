@@ -8,6 +8,7 @@ Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
 
+Route::post('/csv/search', [CsvController::class, 'search'])->name('search');
 Route::post('/csv/download', [CsvController::class, 'download'])->name('download');
 Route::post('/csv/ver', [CsvController::class, 'show'])->name('ver');
 Route::resource('/csv',CsvController::class);

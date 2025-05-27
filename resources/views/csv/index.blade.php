@@ -4,7 +4,8 @@
 
 @section('contenido')
     <div class="mb-3 justify-content-end d-flex w-25 ms-auto" style="margin-right: 15px;">
-        <form class="input-group" method="GET" action="{{ route('ver') }}">
+        <form class="input-group" method="POST" action="{{ route('search') }}">
+            @csrf
             <input type="text" class="form-control" placeholder="Buscar Csv" aria-label="Buscar CSV" name="search" value="{{ $search ?? '' }}" required>
             <button class="btn btn-primary" id="btn_buscar">Buscar</button>
         </form>

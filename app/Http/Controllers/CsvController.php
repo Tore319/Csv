@@ -114,30 +114,16 @@ class CsvController extends Controller
     {   
         $usuario = Auth::user();
 
+        $sql = $request->get('csv');
+        $csv = Csv::where('csv', $sql)->get();
+        if(count($csv) < 1) return redirect('/')->with('mensaje', 'No existe CSV');
+
         if(!$usuario || $usuario->rol !== 'admin') {
-            $csvs = $request->get('csv');
-            $sql = Csv::where('csv', $csvs)->firstOrFail();
-    
-            return view('csv.show',compact('sql'));
+            return view('csv.show',compact('csv'));
+
         }else {
-            $csv = $request->get('csv');
-            $query = Csv::query();
-
-            $query->where(function($q) use ($csv){
-                $q->where('correo', 'like', '%' . $csv . '%')
-                ->orWhere('nombre', 'like', '%' . $csv . '%')
-                ->orWhere('DNI', 'like', '%' . $csv . '%')
-                ->orWhere('csv', 'like', '%' . $csv . '%')
-                ->orWhere('tipo_documento', 'like', '%' . $csv . '%');
-            });
-
-            $csvs = $query->orderBy('created_at', 'desc')->orderBy('created_at', 'DESC')->paginate(1);
-
-            if(count($csvs) < 1) {
-                return view('inicio');
-            }
-
-            return view('csv.index',compact('csvs'));
+            $csvs = Csv::where('csv', $sql)->orderBy('created_at', 'DESC')->paginate(1);
+            return view('csv.index', compact('csvs'));
         }
     }
 
@@ -167,6 +153,27 @@ class CsvController extends Controller
         $csv->delete();
 
         return redirect()->route('csv.index');
+    }
+
+    public function search(Request $request)
+    {
+        $usuario = Auth::user();
+        if(!$usuario || $usuario->rol !== 'admin') return redirect('/');
+
+        $csv = $request->get('csv');
+        $query = Csv::query();
+
+        $query->where(function($q) use ($csv){
+            $q->where('correo', 'like', '%' . $csv . '%')
+            ->orWhere('nombre', 'like', '%' . $csv . '%')
+            ->orWhere('DNI', 'like', '%' . $csv . '%')
+            ->orWhere('csv', 'like', '%' . $csv . '%')
+            ->orWhere('tipo_documento', 'like', '%' . $csv . '%');
+        });
+
+        $csv = $query->orderBy('created_at', 'DESC')->first();
+
+        return view('csv.show',compact('csv'));
     }
 
     public function download(Csv $csv)
