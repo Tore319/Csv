@@ -115,8 +115,9 @@ class CsvController extends Controller
         $usuario = Auth::user();
 
         $sql = $request->get('csv');
-        $csv = Csv::where('csv', $sql)->get();
-        if(count($csv) < 1) return redirect('/')->with('mensaje', 'No existe CSV');
+        $csv = Csv::where('csv', $sql)->first();
+        //dd($csv);
+        if(!$csv) return redirect('/')->with('mensaje', 'No existe CSV');
 
         if(!$usuario || $usuario->rol !== 'admin') {
             return view('csv.show',compact('csv'));
