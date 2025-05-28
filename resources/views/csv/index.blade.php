@@ -3,6 +3,11 @@
 @section('titulo_head', 'Gestion de Archivos')
 
 @section('contenido')
+    @if (session()->has('mensaje'))
+        <div class="container my-5 mx-auto alert alert-danger alert-dismissible " style="width: 75%;">{{ session('mensaje') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="mb-3 justify-content-end d-flex w-25 ms-auto" style="margin-right: 15px;">
         <form class="input-group" method="POST" action="{{ route('search') }}">
             @csrf

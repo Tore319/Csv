@@ -160,7 +160,8 @@ class CsvController extends Controller
         $usuario = Auth::user();
         if(!$usuario || $usuario->rol !== 'admin') return redirect('/');
 
-        $csv = $request->get('csv');
+        $csv = $request->get('search');
+        //dd($csv);
         $query = Csv::query();
 
         $query->where(function($q) use ($csv){
@@ -172,6 +173,8 @@ class CsvController extends Controller
         });
 
         $csv = $query->orderBy('created_at', 'DESC')->first();
+
+        if(!$csv) return redirect()->route('csv.index')->with('mensaje', 'Archivo no encontrado');
 
         return view('csv.show',compact('csv'));
     }
