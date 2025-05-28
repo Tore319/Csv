@@ -161,20 +161,28 @@ class CsvController extends Controller
         if(!$usuario || $usuario->rol !== 'admin') return redirect('/');
 
         $csv = $request->get('search');
-        //dd($csv);
+        $nomApe = explode(' ', $csv);
+        $nombre = $nomApe[0] ?? '';
+        $apellido = $nomApe[1] ?? '';
         $query = Csv::query();
 
         $query->where(function($q) use ($csv){
             $q->where('correo', 'like', '%' . $csv . '%')
-            ->orWhere('nombre', 'like', '%' . $csv . '%')
+            ->orwhere('nombre', 'like', '%' . $csv . '%')
+            ->orwhere('apellidos', 'like', '%' . $csv . '%')
             ->orWhere('DNI', 'like', '%' . $csv . '%')
             ->orWhere('csv', 'like', '%' . $csv . '%')
             ->orWhere('tipo_documento', 'like', '%' . $csv . '%');
         });
 
         $csv = $query->orderBy('created_at', 'DESC')->first();
+        $query2 = Csv::where('nombre', 'like', '%' . $nombre . '%')
+             ->where('apellidos', 'like', '%' . $apellido . '%')
+             ->orderBy('created_at', 'DESC')
+             ->first();
 
-        if(!$csv) return redirect()->route('csv.index')->with('mensaje', 'Archivo no encontrado');
+        if(!$csv && !$query2) return redirect()->route('csv.index')->with('mensaje', 'Archivo no encontrado');
+        else if($query2) $csv = $query2;
 
         return view('csv.show',compact('csv'));
     }
