@@ -17,7 +17,7 @@
     @elseif (auth()->user()->rol == 'admin')
         <div class="d-flex flex-wrap justify-content-around">
                 <div class="d-flex justify-content-around mb-3 p-3 border bg-light" style="width: 45%;">
-                    <embed src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" height="300px"/>
+                    <embed src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" style="height: 25rem;"/>
                     <div>
                         <h4 class="text-center" style="margin-top: 20px;">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
                         <p class="text-center" style="margin-top: 20px;">{{ $csv->tipo_documento }}</p>

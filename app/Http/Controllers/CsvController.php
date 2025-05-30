@@ -66,7 +66,6 @@ class CsvController extends Controller
         }
         $ruta = storage_path('app/public/');
 
-        //Hash y CSV
         $contenido = file_get_contents($ruta.$csv->archivo);
         $csv->hash = sha1($contenido);
         $comp = Csv::get()->where('hash', $csv->hash);
@@ -114,20 +113,12 @@ class CsvController extends Controller
      */
     public function show(Request $request)
     {   
-        $usuario = Auth::user();
-
         $sql = $request->get('csv');
         $csv = Csv::where('csv', $sql)->first();
         
         if(!$csv) return redirect('/')->with('mensaje', 'No existe CSV');
 
-        if(!$usuario || $usuario->rol !== 'admin') {
-            return view('csv.show',compact('csv'));
-
-        }else {
-            $csv = Csv::where('csv', $sql)->firstOrFail();
-            return view('csv.show', compact('csv'));
-        }
+        return view('csv.show',compact('csv'));
     }
 
     /**
