@@ -35,11 +35,7 @@
                     <div>
                         <h4 class="fs-5 fs-md-4 fs-lg-3 mb-3 text-center mt-3" style="height: 2rem;">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
                         <p class="text-center fs-6 fs-md-5 fs-lg-4 mt-1" style="height: 2rem;">{{ $csv->tipo_documento }}</p>
-                        <button 
-                            class="btn btn-outline-secondary d-block mx-auto" 
-                            data-clipboard-text="{{ $csv->csv }}" 
-                            onclick="navigator.clipboard.writeText(this.dataset.clipboardText)"
-                            style="margin-top: 20px;">
+                        <button class="btn btn-outline-secondary d-block mx-auto" data-clipboard-text="{{ $csv->csv }}" onclick="navigator.clipboard.writeText(this.dataset.clipboardText)" style="margin-top: 1rem;">
                             <i class="bi bi-clipboard"></i> Copiar CSV
                         </button>
                         <div class="d-flex justify-content-center mb-3 align-items-center">

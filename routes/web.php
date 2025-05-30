@@ -9,7 +9,7 @@ Route::get('/', function () {
 })->name('inicio');
 
 Route::get('/csv/search', [CsvController::class, 'search'])->name('search');
-Route::post('/csv/download', [CsvController::class, 'download'])->name('download');
+//Route::post('/csv/download', [CsvController::class, 'download'])->name('download');
 Route::post('/csv/show', [CsvController::class, 'show'])->name('show');
 Route::resource('/csv',CsvController::class);
 

@@ -181,16 +181,16 @@ class CsvController extends Controller
         return view('csv.search',compact('csvs'));
     }
 
-    public function download(Csv $csv)
-    {
-        $path = storage_path('app/public/' . $csv->archivo);
+    // public function download(Csv $csv)
+    // {
+    //     $path = storage_path('app/public/' . $csv->archivo);
 
-        if (!file_exists($path)) {
-            abort(404, 'Archivo no encontrado');
-        }
+    //     if (!file_exists($path)) {
+    //         abort(404, 'Archivo no encontrado');
+    //     }
 
-        return response()->download($path, '', [
-            'Content-Type' => 'application/pdf'
-        ]);
-    }
+    //     return response()->download($path, '', [
+    //         'Content-Type' => 'application/pdf'
+    //     ]);
+    // }
 }
