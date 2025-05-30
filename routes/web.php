@@ -8,9 +8,9 @@ Route::get('/', function () {
     return view('inicio');
 })->name('inicio');
 
-Route::post('/csv/search', [CsvController::class, 'search'])->name('search');
+Route::get('/csv/search', [CsvController::class, 'search'])->name('search');
 Route::post('/csv/download', [CsvController::class, 'download'])->name('download');
-Route::post('/csv/ver', [CsvController::class, 'show'])->name('ver');
+Route::post('/csv/show', [CsvController::class, 'show'])->name('show');
 Route::resource('/csv',CsvController::class);
 
 // Route::get('/dashboard', function () {

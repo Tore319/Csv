@@ -11,7 +11,7 @@
         @endif
         <h1 class="text-center">Codigo CSV</h1>
         <div class="container-fluid">
-            <form action="{{ route('ver') }}" method="POST" enctype="multipart/form-data" class="row g-3 mt-3">
+            <form action="{{ route('show') }}" method="POST" enctype="multipart/form-data" class="row g-3 mt-3">
             @csrf
                 <p class="text-center">
                     <label for="csv">Inserte el Codigo CSV</label>

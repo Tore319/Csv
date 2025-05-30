@@ -60,6 +60,7 @@ class CsvController extends Controller
         $csv->nombre = $request->get('nombre');
         $csv->apellidos = $request->get('apellidos');
         $csv->correo = $request->get('correo');
+        $csv->tipo_documento = $request->get('tipoDocumento');
         if ($request->hasFile('archivo')) {
             $csv->archivo = $request->file('archivo')->store('csv', 'public');
         }
@@ -116,7 +117,7 @@ class CsvController extends Controller
 
         $sql = $request->get('csv');
         $csv = Csv::where('csv', $sql)->first();
-        //dd($csv);
+        
         if(!$csv) return redirect('/')->with('mensaje', 'No existe CSV');
 
         if(!$usuario || $usuario->rol !== 'admin') {
@@ -176,16 +177,16 @@ class CsvController extends Controller
             ->orWhere('tipo_documento', 'like', '%' . $csv . '%');
         });
 
-        $csv = $query->orderBy('created_at', 'DESC')->first();
+        $csvs = $query->orderBy('created_at', 'DESC')->paginate(6);
         $query2 = Csv::where('nombre', 'like', '%' . $nombre . '%')
              ->where('apellidos', 'like', '%' . $apellido . '%')
              ->orderBy('created_at', 'DESC')
-             ->first();
+             ->paginate(6);
 
-        if(!$csv && !$query2) return redirect()->route('csv.index')->with('mensaje', 'Archivo no encontrado');
-        else if($query2) $csv = $query2;
+        if(count($csvs) < 1 && count($query2) < 1) return redirect()->route('csv.index')->with('mensaje', 'Archivo no encontrado');
+        else if(count($query2) > 0) $csvs = $query2;
 
-        return view('csv.show',compact('csv'));
+        return view('csv.search',compact('csvs'));
     }
 
     public function download(Csv $csv)

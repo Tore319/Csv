@@ -3,17 +3,6 @@
 @section('titulo_head', 'Gestion de Archivos')
 
 @section('contenido')
-    @if (session()->has('mensaje'))
-        <div class="container my-5 mx-auto alert alert-danger alert-dismissible " style="width: 75%;">{{ session('mensaje') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    <div class="mb-3 justify-content-end d-flex w-25 ms-auto" style="margin-right: 15px;">
-        <form class="input-group" method="GET" action="{{ route('search') }}">
-            <input type="text" class="form-control" placeholder="Buscar Csv" aria-label="Buscar CSV" name="search" value="{{ $search ?? '' }}" required>
-            <button class="btn btn-primary" id="btn_buscar">Buscar</button>
-        </form>
-    </div>
     <h1 class="text-center">Gestion</h1>
     <div class="container my-5 mx-auto">
         <div class="d-flex flex-wrap justify-content-around">

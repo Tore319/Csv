@@ -35,9 +35,9 @@
                 <input type="file" class="form-control" id="archivo" name="archivo" accept="application/pdf" required>
             </div>
             <div class="col-md-6">
-                <label for="tipoArchivo" class="form-label">Tipo Archivo: </label>
+                <label for="tipoDocumento" class="form-label">Tipo Archivo: </label>
                 <p>
-                    <select name="tipoArchivo" id="tipoArchivo" style="margin-top: 10px;" required>
+                    <select name="tipoDocumento" id="tipoDocumento" style="margin-top: 10px;" required>
                         <option value="Certificado matricula">Certificado matricula</option>
                         <option value="Titulo academico">Titulo academico</option>
                         <option value="Certificado Digital empresa">Certificado Digital empresa</option>
