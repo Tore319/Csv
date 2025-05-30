@@ -31,7 +31,7 @@
         <div class="d-flex flex-wrap justify-content-around">
             @foreach ($csvs as $csv)
                 <div class="d-flex justify-content-around mb-3 p-3 border bg-light" style="width: 45%;">
-                    <embed class="d-none d-md-block" src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" height="300px"/>
+                    <embed class="d-none d-md-block" src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" style="height: 20rem;"/>
                     <div>
                         <h4 class="fs-5 fs-md-4 fs-lg-3 mb-3 text-center mt-1">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
                         <p class="text-center fs-6 fs-md-5 fs-lg-4 mt-1">{{ $csv->tipo_documento }}</p>
@@ -43,14 +43,14 @@
                             <i class="bi bi-clipboard"></i> Copiar CSV
                         </button>
                         <div class="d-flex justify-content-center mb-3 align-items-center">
-                            <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+                            <form action="{{ route('csv.destroy', $csv->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('DELETE')
-                                <button class="btn btn-danger" style="margin-top: 20px;"><i class="bi bi-trash"></i></button>
+                                <button class="btn btn-danger" style="margin-top: 1.2rem; height: 2.2rem;"><i class="bi bi-trash"></i></button>
+                                <a href="{{ asset('storage/' . $csv->archivo) }}" target="_blank" class="btn btn-success" style="margin-top: 1.2rem; margin-left: 1rem; height: 2.2rem;">
+                                    <i class="bi bi-file-earmark"></i>
+                                </a>
                             </form>
-                            <a href="{{ asset('storage/' . $csv->archivo) }}" target="_blank" class="btn btn-success" style="margin-top: 20px; margin-left: 10px;">
-                                <i class="bi bi-file-earmark"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
