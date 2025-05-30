@@ -33,8 +33,8 @@
                 <div class="d-flex justify-content-around mb-3 p-3 border bg-light" style="width: 45%;">
                     <embed class="d-none d-md-block" src="{{asset('storage/' . $csv->archivo)}}" type="application/pdf" width="60%" style="height: 20rem;"/>
                     <div>
-                        <h4 class="fs-5 fs-md-4 fs-lg-3 mb-3 text-center mt-1">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
-                        <p class="text-center fs-6 fs-md-5 fs-lg-4 mt-1">{{ $csv->tipo_documento }}</p>
+                        <h4 class="fs-5 fs-md-4 fs-lg-3 mb-3 text-center mt-3" style="height: 2rem;">{{ $csv->nombre }} {{ $csv->apellidos }}</h4>
+                        <p class="text-center fs-6 fs-md-5 fs-lg-4 mt-1" style="height: 2rem;">{{ $csv->tipo_documento }}</p>
                         <button 
                             class="btn btn-outline-secondary d-block mx-auto" 
                             data-clipboard-text="{{ $csv->csv }}" 
