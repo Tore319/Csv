@@ -28,7 +28,7 @@
                     @if (auth()->check())
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="btn btn-link">Logout</button>
+                            <button type="submit" class="nav-link">Logout</button>
                         </form>
                         @if (auth()->user()->rol == 'admin')
                             <li class="nav-item">

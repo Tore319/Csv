@@ -73,13 +73,12 @@ class CsvController extends Controller
         if(count($comp) != 0) {
             return redirect()->route('csv.create')->with('mensaje', 'Archivo Repetido');
         }
-        $random = rand(1,9);
 
         $csv->save();
 
-        $csvId = Csv::where('hash', $csv->hash)->first();
-        $find = Csv::findOrFail($csvId->id);
-        $find->csv = 'IME'.$csv->hash.$find->id.$random;
+        $random = rand(1,9);
+        $find = Csv::where('hash', $csv->hash)->first();
+        $find->csv = 'IME'.$find->hash.$find->id.$random;
 
         //Modificacion PDF
         $pdf = new Fpdi();
