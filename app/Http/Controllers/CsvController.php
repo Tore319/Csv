@@ -83,23 +83,25 @@ class CsvController extends Controller
 
         //Modificacion PDF
         $pdf = new Fpdi();
-        $pdf->AddPage();
+        $pageCount = $pdf->setSourceFile($ruta.$csv->archivo);
 
-        $pdf->setSourceFile($ruta.$csv->archivo);
-        $template = $pdf->importPage(1);
-        $pdf->useTemplate($template, 0, 0);
+        for($i = 1; $i <= $pageCount; $i++) {
+            $template = $pdf->importPage($i);
+            $size = $pdf->getTemplateSize($template);
+            $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+            $pdf->useTemplate($template);
 
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->SetTextColor(0, 0, 200);
-        $pdf->SetXY(50, 250);
-        $pdf->Write(0, "Codigo CSV: $find->csv");
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->SetTextColor(0, 0, 200);
+            $pdf->SetXY(50, 250);
+            $pdf->Write(0, "Codigo CSV: $find->csv");
+            $pdf->Ln(10);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->SetTextColor(0, 0, 255);
+            $pdf->SetX(120);
+            $pdf->Write(5, "http://juanjo-torres.es");
+        }
 
-        $pdf->Ln(10);
-
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->SetTextColor(0, 0, 255);
-        $pdf->SetX(120);
-        $pdf->Write(5, "http://juanjo-torres.es");
         $pdf->Output('F', $ruta.$csv->archivo);
 
         Mail::to($csv->correo)->send(new CreateMail($find));
