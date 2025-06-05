@@ -67,7 +67,7 @@ class CsvController extends Controller
         $ruta = storage_path('app/public/');
 
         $contenido = file_get_contents($ruta.$csv->archivo);
-        $csv->hash = sha1($contenido);
+        $csv->hash = substr(sha1($contenido), 0, 21);
         $comp = Csv::get()->where('hash', $csv->hash);
         if(count($comp) != 0) {
             return redirect()->route('csv.create')->with('mensaje', 'Archivo Repetido');
@@ -91,12 +91,12 @@ class CsvController extends Controller
 
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->SetTextColor(0, 0, 200);
-            $pdf->SetXY(50, 250);
+            $pdf->SetXY(100, 250);
             $pdf->Write(0, "Codigo CSV: $find->csv");
             $pdf->Ln(10);
             $pdf->SetFont('Arial', '', 10);
             $pdf->SetTextColor(0, 0, 255);
-            $pdf->SetX(120);
+            $pdf->SetX(150);
             $pdf->Write(5, "http://juanjo-torres.es");
         }
 
