@@ -6,7 +6,6 @@
     <title>Mail</title>
 </head>
 <body>
-    <!-- <pre>{ { print_r($csv, true) } }</pre> -->
     <p>Enlace pagina: <a href="{{ route('inicio') }}">Enlace</a>, CSV: {{ $csv->csv }}</p>
 </body>
 </html>

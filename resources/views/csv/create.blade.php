@@ -22,7 +22,7 @@
             </div>
             <div class="col-md-6">
                 <label for="apellidos" class="form-label">Apellidos: </label>
-                <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{old('apellidos')}}">
+                <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{old('apellidos')}}" required>
             </div>
             <div class="col-md-6">
                 <label for="correo" class="form-label">Correo electronico: </label>
